@@ -1,0 +1,1 @@
+/home/katsi/Downloads/tmp-camera/CMakeFiles/tmp-camera.dir

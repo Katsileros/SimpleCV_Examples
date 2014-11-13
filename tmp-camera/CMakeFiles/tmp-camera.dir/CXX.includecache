@@ -1,0 +1,16 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/katsi/Downloads/tmp-camera/camera.cpp
+iostream
+-
+opencv/cv.h
+/home/katsi/Downloads/tmp-camera/opencv/cv.h
+opencv/highgui.h
+/home/katsi/Downloads/tmp-camera/opencv/highgui.h
+
