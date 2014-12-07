@@ -1,1 +1,0 @@
-/home/katsi/PANDORA/Object_Recognition/CODE/background_subtraction/CMakeFiles/background_subtraction.dir
