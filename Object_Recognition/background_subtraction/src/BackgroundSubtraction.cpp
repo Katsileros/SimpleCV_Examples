@@ -1,5 +1,11 @@
 #include "BackgroundSubtraction.h"
 
+/**
+@brief Constructor of BackgroundSubtraction object
+@details Read input images
+	   * Declare values
+@return void
+**/
 BackgroundSubtraction::BackgroundSubtraction()
 {
 	setRgb(cv::imread("rgb.png"));
@@ -14,6 +20,12 @@ BackgroundSubtraction::BackgroundSubtraction()
 	
 }
 
+/**
+@brief Function implements the removal of background of an image
+@details At first decreases the region of interest depends on depth values
+	   * and after this isolates the object with rgb values 
+@return void
+**/
 void BackgroundSubtraction::rmBG()
 {
 	int i=0, j=0;
@@ -98,12 +110,46 @@ void BackgroundSubtraction::rmBG()
 	}
 	
 	cv::imshow("rgb",rgb);
+	
+	erosion_elem = 2;
+	erosion_size = 4;
+	max_elem = 2;
+	max_kernel_size = 21;
+	
+	//~ /// Create windows
+	//~ cv::namedWindow( "Erosion Demo", CV_WINDOW_AUTOSIZE );
+//~ 
+	//~ /// Create Erosion Trackbar
+	//~ cvCreateTrackbar( "Element:\n 0: Rect \n 1: Cross \n 2: Ellipse", "Erosion Demo",
+                  //~ &erosion_elem, max_elem);
+                  //~ //erosion );
+ //~ 
+	//~ cvCreateTrackbar( "Kernel size:\n 2n +1", "Erosion Demo",
+                  //~ &erosion_size, max_kernel_size);
+                  //~ //erosion );
+           
+    erosion(0,0);      
+            
+    //~ for(;;)
+	//~ {
+		//~ erosion(0,0);
+		//~ if (cv::waitKey() == 27) break; ///press Esc to terminate the procedure
+	//~ }
+	
+	
 	cv::waitKey();
 	
 	//~ return 0;
 	
 }
 
+/**
+@brief Function: implements the thresholding of an image
+@details Thresholds an image so as to find the appropriate bounding
+	  *  box around the object 
+@param img [cv::Mat] input image chich is going to be thresholded 
+@return void
+**/
 void BackgroundSubtraction::thresholdImg(cv::Mat img)
 {	
 	setImgThresholded( img );
@@ -113,7 +159,8 @@ void BackgroundSubtraction::thresholdImg(cv::Mat img)
 	//~ /// Create Window
 	std::string source_window = "Source";
 	cv::namedWindow( source_window, CV_WINDOW_AUTOSIZE );
-	cv::imshow( source_window, cv::imread("rgb.png") );
+	//~ cv::imshow( source_window, cv::imread("rgb.png") );
+	cv::imshow( source_window, imgThresholded_ );
 	
 	//~ cv::imwrite("imgThresholded.png", imgThresholded);
 
@@ -133,6 +180,12 @@ void BackgroundSubtraction::thresholdImg(cv::Mat img)
 		}
 }
 
+
+/**
+@brief Function: drawing the bounding boxes
+@details Finds the appropriate bounded boxes arround the objects 
+@return void
+**/
 void BackgroundSubtraction::threshCallback(int, void* )
 {	
 	cv::Mat threshold_output;
@@ -161,7 +214,8 @@ void BackgroundSubtraction::threshCallback(int, void* )
 
 
 	/// Draw polygonal contour + bonding rects + circles
-	cv::Mat drawing = cv::Mat::zeros( threshold_output.size(), CV_8UC3 );
+	//~ cv::Mat drawing = cv::Mat::zeros( threshold_output.size(), CV_8UC3 );
+	cv::Mat drawing = getImgThresholded().clone();
 	for( int i = 0; i< contours.size(); i++ )
 	{
        cv::Scalar color = cv::Scalar( rng.uniform(0, 255), rng.uniform(0,255), rng.uniform(0,255) );
@@ -179,5 +233,33 @@ void BackgroundSubtraction::threshCallback(int, void* )
 	
         if (cv::waitKey() == 27) break; ///press Esc to terminate the procedure
 	}
+}
+
+
+/**
+@brief Function: Make objects bigger and background thinner
+@details The bright areas of the image (the background, apparently), 
+	   * get thinner, whereas the dark zones gets bigger. 
+@return void
+**/
+void BackgroundSubtraction::erosion( int, void* )
+{
+  cv::Mat erosion_dst,src;
+
+  int erosion_type;
+  if( erosion_elem == 0 ){ erosion_type = cv::MORPH_RECT; }
+  else if( erosion_elem == 1 ){ erosion_type = cv::MORPH_CROSS; }
+  else if( erosion_elem == 2) { erosion_type = cv::MORPH_ELLIPSE; }
+
+  cv::Mat element = getStructuringElement( erosion_type,
+                                       cv::Size( 2*erosion_size + 1, 2*erosion_size+1 ),
+                                       cv::Point( erosion_size, erosion_size ) );
+
+  /// Apply the erosion operation
+  src = getRgb();
+  cv::erode( src, erosion_dst, element );
+  imshow( "Erosion Demo", erosion_dst );
+  cv::waitKey();
+  setRgb(erosion_dst);
 }
 
