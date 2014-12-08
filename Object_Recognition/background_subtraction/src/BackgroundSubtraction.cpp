@@ -1,11 +1,5 @@
 #include "BackgroundSubtraction.h"
 
-/**
-@brief Constructor of BackgroundSubtraction object
-@details Read input images
-	   * Declare values
-@return void
-**/
 BackgroundSubtraction::BackgroundSubtraction()
 {
 	setRgb(cv::imread("rgb.png"));
@@ -20,12 +14,6 @@ BackgroundSubtraction::BackgroundSubtraction()
 	
 }
 
-/**
-@brief Function implements the removal of background of an image
-@details At first decreases the region of interest depends on depth values
-	   * and after this isolates the object with rgb values 
-@return void
-**/
 void BackgroundSubtraction::rmBG()
 {
 	int i=0, j=0;
@@ -143,13 +131,7 @@ void BackgroundSubtraction::rmBG()
 	
 }
 
-/**
-@brief Function: implements the thresholding of an image
-@details Thresholds an image so as to find the appropriate bounding
-	  *  box around the object 
-@param img [cv::Mat] input image chich is going to be thresholded 
-@return void
-**/
+
 void BackgroundSubtraction::thresholdImg(cv::Mat img)
 {	
 	setImgThresholded( img );
@@ -181,11 +163,6 @@ void BackgroundSubtraction::thresholdImg(cv::Mat img)
 }
 
 
-/**
-@brief Function: drawing the bounding boxes
-@details Finds the appropriate bounded boxes arround the objects 
-@return void
-**/
 void BackgroundSubtraction::threshCallback(int, void* )
 {	
 	cv::Mat threshold_output;
@@ -236,12 +213,6 @@ void BackgroundSubtraction::threshCallback(int, void* )
 }
 
 
-/**
-@brief Function: Make objects bigger and background thinner
-@details The bright areas of the image (the background, apparently), 
-	   * get thinner, whereas the dark zones gets bigger. 
-@return void
-**/
 void BackgroundSubtraction::erosion( int, void* )
 {
   cv::Mat erosion_dst,src;
