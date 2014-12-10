@@ -2,16 +2,10 @@
 #define  BACKGROUND_SUBTRACTION_H
 
 #include <iostream>
-#include <iostream>
-#include <stdio.h>
-#include <stdlib.h>
-#include <boost/thread/thread.hpp>
 
-#include "opencv2/core/core.hpp"
 #include "opencv2/highgui/highgui.hpp"
 #include "opencv2/imgproc/imgproc.hpp"
-#include "opencv2/opencv.hpp"
-#include <opencv2/video/background_segm.hpp>
+#include "opencv2/core/core.hpp"
 
 #include <pcl/common/common_headers.h>
 #include <pcl/ModelCoefficients.h>
@@ -21,6 +15,8 @@
 #include <pcl/sample_consensus/method_types.h>
 #include <pcl/sample_consensus/model_types.h>
 #include <pcl/segmentation/sac_segmentation.h>
+
+#include "mat2pcl.h"
 
 
 /**
@@ -133,6 +129,7 @@ class BackgroundSubtraction{
 		@return int (return -1)
 		**/ 
 		int planarSegmentation();
+		
 		
 	private:
 		//!< Private variables of rgb and depth input images

@@ -5,6 +5,11 @@ BackgroundSubtraction::BackgroundSubtraction()
 	setRgb(cv::imread("rgb.png"));
 	setDepth(cv::imread("depth.png"));
 	
+	cv::Mat depth;
+	depth = getDepth();
+	mat2pcl *pcl = new mat2pcl(depth);
+	cv::waitKey();
+	
 	thresh = 100;
 	maxThresh = 255;
 	rng(12345);
@@ -293,6 +298,5 @@ int BackgroundSubtraction::planarSegmentation()
                                                << cloud->points[inliers->indices[i]].y << " "
                                                << cloud->points[inliers->indices[i]].z << std::endl;
 
-  return (0);
 }
 
