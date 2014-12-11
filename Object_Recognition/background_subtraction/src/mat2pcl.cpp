@@ -10,7 +10,6 @@ void mat2pcl::setPcl(cv::Mat mat)
 {
 	int i=0, j=0;
 	pcl::PointCloud<pcl::PointXYZ>::Ptr point_cloud_ptr (new pcl::PointCloud<pcl::PointXYZ>);
-	//~ point_cloud_ptr = getPcl();
 	pcl::PointXYZ point;
 		
 	std::vector<cv::Mat> channels;

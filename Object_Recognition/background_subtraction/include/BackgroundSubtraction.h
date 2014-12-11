@@ -110,22 +110,22 @@ class BackgroundSubtraction{
 		void setSrcGray( cv::Mat y ){ srcGray_ = y; }
 		
 		/**
-		@brief Removes the background of an image as good as possible
+		@brief Removes the background of an image
 			 * First reduces the region of interest using depth map
-			 * After that isolates the item by use the rgb values
+			 * After that, isolates the item by use the rgb values
 		@return void
 		**/
 		void removeBackGround();
 		
 		/**
 		@brief Creates the trackbar with threshold value
+		@param img [cv::Mat] : The input gray scale image
 		@return void
 		**/
 		void thresholdImg( cv::Mat img );
 		
 		/**
 		@brief This function calculate the bounding boxes in the given image
-		@param img [cv::Mat] : The input gray scale image
 		@return void
 		**/
 		void threshCallback( int, void* );
