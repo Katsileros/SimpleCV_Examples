@@ -1,8 +1,8 @@
 #include <iostream>
 #include <boost/thread/thread.hpp>
-#include "opencv2/core/core.hpp"
 #include "opencv2/highgui/highgui.hpp"
-//~ #include "opencv2/imgproc/imgproc.hpp"
+#include "opencv2/imgproc/imgproc.hpp"
+#include "opencv2/core/core.hpp"
 
 #include <pcl/common/common_headers.h>
 #include <pcl/point_cloud.h>
@@ -18,8 +18,8 @@ class mat2pcl{
 		mat2pcl(cv::Mat mat);
 		~mat2pcl(){};
 		
-		pcl::PointCloud<pcl::PointXYZ>::Ptr get_pcl(){ return cloud_; }
-		void set_pcl(cv::Mat mat);
+		pcl::PointCloud<pcl::PointXYZ>::Ptr getPcl(){ return cloud_; }
+		void setPcl(cv::Mat mat);
 };
 
 

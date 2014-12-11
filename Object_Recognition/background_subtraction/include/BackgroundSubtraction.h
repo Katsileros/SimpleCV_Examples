@@ -62,6 +62,12 @@ class BackgroundSubtraction{
 		cv::Mat getDepth(){ return depth_; }
 		
 		/**
+		@brief Returns the private variable pclMat_
+		@return void
+		**/
+		cv::Mat getPclMat(){ return pclMat_; }
+		
+		/**
 		@brief Returns the private variable imgThresholded_
 		@return void
 		**/
@@ -86,6 +92,12 @@ class BackgroundSubtraction{
 		void setDepth( cv::Mat y ){ depth_ = y; }
 		
 		/**
+		@brief Sets the private variable depth_
+		@return void
+		**/
+		void setPclMat( cv::Mat y ){ pclMat_ = y; }
+		
+		/**
 		@brief Sets the private variable imgThresholded_
 		@return void
 		**/
@@ -103,7 +115,7 @@ class BackgroundSubtraction{
 			 * After that isolates the item by use the rgb values
 		@return void
 		**/
-		void rmBG();
+		void removeBackGround();
 		
 		/**
 		@brief Creates the trackbar with threshold value
@@ -138,6 +150,8 @@ class BackgroundSubtraction{
 		cv::Mat imgThresholded_;
 		//!< Private variable of the gray image used in callback function
 		cv::Mat srcGray_;
+		//!< Private variable of the pclMat cloud
+		cv::Mat pclMat_;
 		
 };
 

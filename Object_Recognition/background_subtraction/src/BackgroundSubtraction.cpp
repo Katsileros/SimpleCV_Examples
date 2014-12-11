@@ -2,24 +2,27 @@
 
 BackgroundSubtraction::BackgroundSubtraction()
 {
-	setRgb(cv::imread("rgb.png"));
-	setDepth(cv::imread("depth.png"));
-	
-	cv::Mat depth;
-	depth = getDepth();
-	mat2pcl *pcl = new mat2pcl(depth);
-	cv::waitKey();
+	setRgb(cv::imread("kafes_rgb.png"));
+	setDepth(cv::imread("kafes_depth.png"));
+	setPclMat(cv::imread("kafes_PointCloud.png"));
 	
 	thresh = 100;
 	maxThresh = 255;
 	rng(12345);
 	
-	this->rmBG();
+	this->planarSegmentation();
+	std::cout<< "\nFinished planarSegmentation." << std::endl;
+	cv::waitKey();
+	this->removeBackGround();
+	std::cout<< "\nFinished removeBackground." << std::endl;
+	cv::waitKey();
 	this->thresholdImg(rgb_);
+	std::cout<< "\nFinished boundingBox." << std::endl;
+	cv::waitKey();
 	
 }
 
-void BackgroundSubtraction::rmBG()
+void BackgroundSubtraction::removeBackGround()
 {
 	int i=0, j=0;
 	
@@ -240,26 +243,18 @@ void BackgroundSubtraction::erosion( int, void* )
 }
 
 int BackgroundSubtraction::planarSegmentation()
-{
+{	
+  cv::Mat pclMat;
+  pclMat = getPclMat();
+	
+  //~ std::cout<< "pclMat.channels: " << pclMat.channels() << std::endl;
+  std::cout<< "I am in planarSegmentation() " << std::endl;
+  mat2pcl *pcl = new mat2pcl(pclMat);
+  cv::waitKey();	
+
   pcl::PointCloud<pcl::PointXYZ>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZ>);
 
-  // Fill in the cloud data
-  cloud->width  = 15;
-  cloud->height = 1;
-  cloud->points.resize (cloud->width * cloud->height);
-
-  // Generate the data
-  for (size_t i = 0; i < cloud->points.size (); ++i)
-  {
-    cloud->points[i].x = 1024 * rand () / (RAND_MAX + 1.0f);
-    cloud->points[i].y = 1024 * rand () / (RAND_MAX + 1.0f);
-    cloud->points[i].z = 1.0;
-  }
-
-  // Set a few outliers
-  cloud->points[0].z = 2.0;
-  cloud->points[3].z = -2.0;
-  cloud->points[6].z = 4.0;
+  cloud = pcl->getPcl();
 
   std::cerr << "Point cloud data: " << cloud->points.size () << " points" << std::endl;
   for (size_t i = 0; i < cloud->points.size (); ++i)
