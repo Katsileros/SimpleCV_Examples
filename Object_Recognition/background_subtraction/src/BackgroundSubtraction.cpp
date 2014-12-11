@@ -256,11 +256,11 @@ int BackgroundSubtraction::planarSegmentation()
 
   cloud = pcl->getPcl();
 
-  std::cerr << "Point cloud data: " << cloud->points.size () << " points" << std::endl;
-  for (size_t i = 0; i < cloud->points.size (); ++i)
-    std::cerr << "    " << cloud->points[i].x << " "
-                        << cloud->points[i].y << " "
-                        << cloud->points[i].z << std::endl;
+  //~ std::cerr << "Point cloud data: " << cloud->points.size () << " points" << std::endl;
+  //~ for (size_t i = 0; i < cloud->points.size (); ++i)
+    //~ std::cerr << "    " << cloud->points[i].x << " "
+                        //~ << cloud->points[i].y << " "
+                        //~ << cloud->points[i].z << std::endl;
 
   pcl::ModelCoefficients::Ptr coefficients (new pcl::ModelCoefficients);
   pcl::PointIndices::Ptr inliers (new pcl::PointIndices);
@@ -282,16 +282,16 @@ int BackgroundSubtraction::planarSegmentation()
     return (-1);
   }
 
-  std::cerr << "Model coefficients: " << coefficients->values[0] << " " 
-                                      << coefficients->values[1] << " "
-                                      << coefficients->values[2] << " " 
-                                      << coefficients->values[3] << std::endl;
+  //~ std::cerr << "Model coefficients: " << coefficients->values[0] << " " 
+                                      //~ << coefficients->values[1] << " "
+                                      //~ << coefficients->values[2] << " " 
+                                      //~ << coefficients->values[3] << std::endl;
 
-  std::cerr << "Model inliers: " << inliers->indices.size () << std::endl;
-  for (size_t i = 0; i < inliers->indices.size (); ++i)
-    std::cerr << inliers->indices[i] << "    " << cloud->points[inliers->indices[i]].x << " "
-                                               << cloud->points[inliers->indices[i]].y << " "
-                                               << cloud->points[inliers->indices[i]].z << std::endl;
+  //~ std::cerr << "Model inliers: " << inliers->indices.size () << std::endl;
+  //~ for (size_t i = 0; i < inliers->indices.size (); ++i)
+    //~ std::cerr << inliers->indices[i] << "    " << cloud->points[inliers->indices[i]].x << " "
+                                               //~ << cloud->points[inliers->indices[i]].y << " "
+                                               //~ << cloud->points[inliers->indices[i]].z << std::endl;
 
 }
 
