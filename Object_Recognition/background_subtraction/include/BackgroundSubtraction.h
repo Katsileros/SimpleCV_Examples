@@ -12,11 +12,9 @@
 #include <pcl/io/pcd_io.h>
 #include <pcl/point_types.h>
 #include <pcl/point_cloud.h>
-#include <pcl/sample_consensus/method_types.h>
 #include <pcl/sample_consensus/model_types.h>
 #include <pcl/segmentation/sac_segmentation.h>
-
-#include "mat2pcl.h"
+#include <pcl/visualization/cloud_viewer.h>
 
 
 /**
@@ -68,6 +66,12 @@ class BackgroundSubtraction{
 		cv::Mat getPclMat(){ return pclMat_; }
 		
 		/**
+		@brief Returns the private variable pcd_
+		@return void
+		**/
+		pcl::PointCloud<pcl::PointXYZ>::Ptr getPclPcd(){ return pcd_; }
+		
+		/**
 		@brief Returns the private variable imgThresholded_
 		@return void
 		**/
@@ -96,6 +100,12 @@ class BackgroundSubtraction{
 		@return void
 		**/
 		void setPclMat( cv::Mat y ){ pclMat_ = y; }
+		
+		/**
+		@brief Sets the private variable depth_
+		@return void
+		**/
+		void setPclPcd( pcl::PointCloud<pcl::PointXYZ>::Ptr pcd ){ pcd_ = pcd; }
 		
 		/**
 		@brief Sets the private variable imgThresholded_
@@ -140,7 +150,7 @@ class BackgroundSubtraction{
 		@brief Pcl planar segmentation function
 		@return int (return -1)
 		**/ 
-		int planarSegmentation();
+		//~ int planarSegmentation();
 		
 		
 	private:
@@ -152,6 +162,8 @@ class BackgroundSubtraction{
 		cv::Mat srcGray_;
 		//!< Private variable of the pclMat cloud
 		cv::Mat pclMat_;
+		//!< Private variable pcd
+		pcl::PointCloud<pcl::PointXYZ>::Ptr pcd_;
 		
 };
 

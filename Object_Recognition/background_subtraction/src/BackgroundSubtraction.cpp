@@ -1,25 +1,10 @@
 #include "BackgroundSubtraction.h"
 
 BackgroundSubtraction::BackgroundSubtraction()
-{
-	setRgb(cv::imread("kafes_rgb.png"));
-	setDepth(cv::imread("kafes_depth.png"));
-	setPclMat(cv::imread("kafes_PointCloud.png"));
-	
+{	
 	thresh = 100;
 	maxThresh = 255;
 	rng(12345);
-	
-	this->planarSegmentation();
-	std::cout<< "\nFinished planarSegmentation." << std::endl;
-	cv::waitKey();
-	this->removeBackGround();
-	std::cout<< "\nFinished removeBackground." << std::endl;
-	cv::waitKey();
-	this->thresholdImg(rgb_);
-	std::cout<< "\nFinished boundingBox." << std::endl;
-	cv::waitKey();
-	
 }
 
 void BackgroundSubtraction::removeBackGround()
@@ -60,7 +45,7 @@ void BackgroundSubtraction::removeBackGround()
 			cv::Vec3b depth_vector = rgb.at<cv::Vec3b>(i, j);
 			unsigned short depth_value = depth.at<unsigned short>(i, j);
 			
-			if((depth_value < 745) || (depth_value > 780))
+			if((depth_value < 460) || (depth_value > 980))
 			{	
 				depth_vector.val[0] = 255;
 				depth_vector.val[1] = 255;
@@ -242,19 +227,32 @@ void BackgroundSubtraction::erosion( int, void* )
   setRgb(erosion_dst);
 }
 
+/*
 int BackgroundSubtraction::planarSegmentation()
 {	
-  cv::Mat pclMat;
-  pclMat = getPclMat();
-	
-  //~ std::cout<< "pclMat.channels: " << pclMat.channels() << std::endl;
+  int fx = 575;
+  int fy = 575;
+  float cx = 320.5;
+  float cy = 240.5;
+  //~ cv::Mat pclMat;
+  //~ pclMat = getPclMat();
+	//~ 
+  //std::cout<< "pclMat.channels: " << pclMat.channels() << std::endl;
   std::cout<< "I am in planarSegmentation() " << std::endl;
-  mat2pcl *pcl = new mat2pcl(pclMat);
-  cv::waitKey();	
+  //~ mat2pcl *pcl = new mat2pcl(pclMat);
+  //~ cv::waitKey();	
 
   pcl::PointCloud<pcl::PointXYZ>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZ>);
+  
+  cloud->width = this->getDepth().cols;
+  cloud->height = this->getDepth().rows;
+  cloud->points.resize(cloud->width * cloud->height);
 
-  cloud = pcl->getPcl();
+  cloud = this->getPclPcd();
+  //~ cloud->points.resize (cloud->height * cloud->width); 
+  
+  //~ std::cout<< "cloud.dim: " << cloud->width << "x" << cloud->height <<std::endl;
+
 
   //~ std::cerr << "Point cloud data: " << cloud->points.size () << " points" << std::endl;
   //~ for (size_t i = 0; i < cloud->points.size (); ++i)
@@ -282,16 +280,59 @@ int BackgroundSubtraction::planarSegmentation()
     return (-1);
   }
 
-  //~ std::cerr << "Model coefficients: " << coefficients->values[0] << " " 
-                                      //~ << coefficients->values[1] << " "
-                                      //~ << coefficients->values[2] << " " 
-                                      //~ << coefficients->values[3] << std::endl;
+  std::cerr << "Model coefficients: " << coefficients->values[0] << " " 
+                                      << coefficients->values[1] << " "
+                                      << coefficients->values[2] << " " 
+                                      << coefficients->values[3] << std::endl;
+
+  
+  cv::Mat tmp_rgb;
+  tmp_rgb = this->getRgb();
+  //~ std::cout << "tmp_rgb.channels: " << tmp_rgb.channels() << std::endl;
+  //~ std::cout << "tmp_rgb.rows: " << tmp_rgb.rows << std::endl;
+  //~ std::cout << "tmp_rgb.cols: " << tmp_rgb.cols << std::endl;
+  //~ cv::resize(tmp_rgb, tmp_rgb, cv::Size(1,tmp_rgb.rows*tmp_rgb.cols));
+  //~ std::cout << "tmp_rgb.size(): " << tmp_rgb.size() << std::endl;
+  
+  //~ pcl::PointCloud<pcl::PointXYZRGBA>::Ptr cloud_rgb (new pcl::PointCloud<pcl::PointXYZRGBA>);
+  //~ 
+  //~ cloud_rgb->points.rgb = tmp_rgb;
+  
+  std::cout << "inliers->indices.size(): " << inliers->indices.size() << std::endl;
+  for (unsigned int i = 0; i < inliers->indices.size(); i++)
+	{
+		int x, y;
+		int idx = inliers->indices[i];
+		if(cloud->points[idx].z != 0)
+		{
+			x = int(cx + ((fx*cloud->points[idx].x)/cloud->points[idx].z) + 0.5f);
+			y = int(cy + ((fy*cloud->points[idx].y)/cloud->points[idx].z) + 0.5f);
+		}
+		tmp_rgb.at<cv::Vec3b>(y,x)[0] = 1;
+		tmp_rgb.at<cv::Vec3b>(y,x)[1] = 1;
+		tmp_rgb.at<cv::Vec3b>(y,x)[2] = 1;
+	}
+  //~ cv::resize(tmp_rgb, tmp_rgb, cv::Size(480, 640)); 
 
   //~ std::cerr << "Model inliers: " << inliers->indices.size () << std::endl;
   //~ for (size_t i = 0; i < inliers->indices.size (); ++i)
     //~ std::cerr << inliers->indices[i] << "    " << cloud->points[inliers->indices[i]].x << " "
                                                //~ << cloud->points[inliers->indices[i]].y << " "
                                                //~ << cloud->points[inliers->indices[i]].z << std::endl;
-
+                                               
+  this->setRgb(tmp_rgb);
+  cv::imshow("planar segmented rgb", this->getRgb());
+  cv::waitKey();
+  
+  this->setPclPcd(cloud);
+  // Cloud viewer object. You can set the window title.
+  //~ pcl::visualization::CloudViewer viewer("pcl_viewer after planar segmentation");
+  //~ viewer.showCloud(cloud);
+  //~ while (!viewer.wasStopped())
+  //~ {
+		// Do nothing but wait.
+  //~ }
+  
 }
+*/
 

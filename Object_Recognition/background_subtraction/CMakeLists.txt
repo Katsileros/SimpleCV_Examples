@@ -12,8 +12,8 @@ add_definitions(${PCL_DEFINITIONS})
 include_directories(include)
 
 set( SRC src/BackgroundSubtraction.cpp
+		 src/planarSegmentation.cpp
 		 src/main.cpp
-		 src/mat2pcl.cpp
 		 )    
 add_executable( ${PROJECT_NAME} ${SRC} )
 target_link_libraries( ${PROJECT_NAME}  ${OpenCV_LIBS} ${PCL_LIBRARIES})
