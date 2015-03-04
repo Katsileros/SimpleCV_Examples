@@ -1,0 +1,32 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/katsi/PANDORA/Object_Recognition/CODE/pose_estimation/src/main.cpp
+poseEstimation.h
+/home/katsi/PANDORA/Object_Recognition/CODE/pose_estimation/src/poseEstimation.h
+
+/home/katsi/PANDORA/Object_Recognition/CODE/pose_estimation/src/poseEstimation.cpp
+poseEstimation.h
+/home/katsi/PANDORA/Object_Recognition/CODE/pose_estimation/src/poseEstimation.h
+
+include/poseEstimation.h
+iostream
+-
+opencv/cv.h
+include/opencv/cv.h
+opencv2/highgui/highgui.hpp
+include/opencv2/highgui/highgui.hpp
+opencv2/imgproc/imgproc.hpp
+include/opencv2/imgproc/imgproc.hpp
+opencv2/core/core.hpp
+include/opencv2/core/core.hpp
+boost/lexical_cast.hpp
+-
+vector
+-
+
