@@ -1,2 +1,2 @@
-myVisionRepo
+My testing Vision Repo
 ============
