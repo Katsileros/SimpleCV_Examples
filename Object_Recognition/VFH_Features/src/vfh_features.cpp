@@ -1,5 +1,7 @@
 #include "vfh_features.h"
 
+typedef std::pair<std::string, std::vector<float> > vfh_model;
+
 vfh_features::vfh_features(std::string imgFile)
 {
   std::cout << "Vfh constructor" << std::endl;
@@ -10,7 +12,7 @@ vfh_features::vfh_features(std::string imgFile)
   
   if (pcl::io::loadPCDFile(imgFile, *cloud_) == -1) //* load the file
   {
-    std::cout << ("Couldn't read file test_pcd.pcd \n") << std::endl;
+    std::cout << ("Couldn't read pcd file \n") << std::endl;
   }
   
 }
@@ -38,9 +40,12 @@ void vfh_features::vfh_compute()
   vfh.setNormalizeDistance(false);
   
   vfh.compute(*vfhs_);
+  
+  //~ std::cout << "Found   " << vfhs_->points.size() << " features. " << std::endl;
+  //~ std::cout << "vfh " << *vfhs_ <<std::endl;
 	
-  pcl::visualization::PCLHistogramVisualizer 	HistoViewer;
-  const std::string id="Visualizing VFH signatures";  	
-  HistoViewer.addFeatureHistogram( *vfhs_, 50, id, 640, 480);
-  HistoViewer.spin();
+  //~ pcl::visualization::PCLHistogramVisualizer 	HistoViewer;
+  //~ const std::string id="Visualizing VFH signatures";  	
+  //~ HistoViewer.addFeatureHistogram( *vfhs_, 50, id, 640, 480);
+  //~ HistoViewer.spin();
 }

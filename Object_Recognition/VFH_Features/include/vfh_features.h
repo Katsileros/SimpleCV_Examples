@@ -5,6 +5,7 @@
 #include <pcl/io/pcd_io.h>
 #include <pcl/visualization/cloud_viewer.h>
 #include <pcl/visualization/histogram_visualizer.h>
+#include <boost/filesystem.hpp>
 #include <iostream>
 
 class vfh_features{
@@ -18,5 +19,5 @@ class vfh_features{
 		vfh_features(std::string imgFile);
 		~vfh_features();
 		void vfh_compute();
-		//~ pcl::PointCloud<pcl::VFHSignature308>::Ptr get_vfhs(){return vfhs_;};
+		pcl::PointCloud<pcl::VFHSignature308>::Ptr getVFH(){return vfhs_;};
 };
