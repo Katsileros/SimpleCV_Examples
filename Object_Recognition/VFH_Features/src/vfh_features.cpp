@@ -1,7 +1,9 @@
 #include "vfh_features.h"
 
-typedef std::pair<std::string, std::vector<float> > vfh_model;
-
+/**
+@brief Constructor. Reads the input pcd, and resets the private variables 
+@param Input pcd file
+**/
 vfh_features::vfh_features(std::string imgFile)
 {
   std::cout << "Vfh constructor" << std::endl;
@@ -17,6 +19,11 @@ vfh_features::vfh_features(std::string imgFile)
   
 }
 
+/**
+@brief Calculates the normals of the given input pcd file
+* 	   Then finds the vfh descriptor 
+@return void
+**/
 void vfh_features::vfh_compute()
 {		
   // Estimate the normals.
@@ -40,12 +47,4 @@ void vfh_features::vfh_compute()
   vfh.setNormalizeDistance(false);
   
   vfh.compute(*vfhs_);
-  
-  //~ std::cout << "Found   " << vfhs_->points.size() << " features. " << std::endl;
-  //~ std::cout << "vfh " << *vfhs_ <<std::endl;
-	
-  //~ pcl::visualization::PCLHistogramVisualizer 	HistoViewer;
-  //~ const std::string id="Visualizing VFH signatures";  	
-  //~ HistoViewer.addFeatureHistogram( *vfhs_, 50, id, 640, 480);
-  //~ HistoViewer.spin();
 }
