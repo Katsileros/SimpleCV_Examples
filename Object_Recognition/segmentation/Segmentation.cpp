@@ -49,7 +49,7 @@ void Segmenter::FillPointCloud(cv::Mat depth_mat)
      {
 		depth_value = depth_mat.at<unsigned short>(i,j);
 		///Z = depth(row, col) / 1000;
-		if(depth_value != 0){							//Alliws bgainei synexia to 0,0,0
+		if(depth_value != 0){				
 			Z = float(depth_value)/1000.0f; 
 			///X = (col - centerX) * Z / focalLengthX;
 			X = (j - centerX) * Z / focalLengthX;
@@ -59,9 +59,6 @@ void Segmenter::FillPointCloud(cv::Mat depth_mat)
 			cloud->points[i*depth_mat.rows+j].x = X;
 			cloud->points[i*depth_mat.rows+j].y = Y;
 			cloud->points[i*depth_mat.rows+j].z = Z;
-			//Enallaktika:
-			//cloud->at(j,i) = pcl::PointXYZ(X,Y,Z);		
-			//~ pntCld->push_back(pcl::PointXYZ (X,Y,Z));
 		}
      } 	
   }
@@ -104,15 +101,10 @@ void Segmenter::Visualize(cv::Mat rgb_image)
 		id = inliers->indices[i];
 		if (cloud->points[id].z==0)
 		{
-			//x = int(focalLengthX*cloud->points[id].x);///x = fx*X;
-			//y = int(focalLengthY*cloud->points[id].y);///y = fy*Y;
-			//Lathos! An to Z = 0, tote pantote pairnoume to shmeio 0,0,0. Pou antistoixei sto (centerX, centerY). Alla stin ousia
-			//apla den exoume pliroforia!
-			
+			// Nothing to do
 		}
 		else
 		{
-			//den ekanes swsto round. To int sou briskei ton amesws mikrotero akeraio. int(1.9) = 1. Giauto evala to +0.5 gia einai san round. Twra feygei olo to trapezi.
 			//x = int( centerX + focalLengthX*cloud->points[id].x/cloud->points[id].z + 0.5f);///x = cx + fx*X/Z
 			//y = int( centerY + focalLengthY*cloud->points[id].y/cloud->points[id].z + 0.5f);///y = cy + fx*Y/Z
 			x = id % cloud->width;
@@ -121,14 +113,6 @@ void Segmenter::Visualize(cv::Mat rgb_image)
 			rgb_image.at<cv::Vec3b>(y,x)[1] = 0;
 			rgb_image.at<cv::Vec3b>(y,x)[2] = 0;
 		}
-		
-		//Efoson ta inliers einai indices, yparxei kai poio aplos tropos:
-		//x = id % cloud->width;
-		//y = id / cloud->width;
-		
-		//~ rgb_image.at<cv::Vec3b>(y,x)[0] = 0;
-		//~ rgb_image.at<cv::Vec3b>(y,x)[1] = 0;
-		//~ rgb_image.at<cv::Vec3b>(y,x)[2] = 0;
 	}
 	
 	cv::imshow("Segmented",rgb_image);
