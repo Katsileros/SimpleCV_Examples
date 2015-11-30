@@ -1,2 +1,2 @@
-My testing Vision Repo
+Simple CV examples
 ============
